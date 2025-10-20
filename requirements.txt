@@ -1,0 +1,7 @@
+# Production dependencies
+# Currently using only Python standard library
+
+# Development dependencies (uncomment if needed)
+# pytest>=7.0.0
+# black>=22.0.0
+# flake8>=4.0.0
