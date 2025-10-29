@@ -1,3 +1,5 @@
+from .storage import load_tasks_from_file,save_tasks_to_file
+
 """
 Core TODO functionality for managing tasks.
 
@@ -8,6 +10,14 @@ It serves as the business logic layer for the TODO CLI application.
 STATUS_TO_DO="To Do"
 STATUS_IN_PROGRESS="In Progress"
 STATUS_DONE="Done"
+
+def get_next_task_id(task_list):
+    if not task_list:
+        return 1
+    else:
+        for task in task_list:
+            max_id=max(task["id"] for task in task_list)
+        return max_id+1
 
 def create_task(id, description, status):
     """
@@ -32,6 +42,27 @@ def create_task(id, description, status):
         }      
     return task
 
+def add_task(task_list, new_task):
+    task_list.append(new_task)
+    save_tasks_to_file(task_list)
+
+def remove_task(task_list,task_id):
+    for task in task_list:
+        if task["id"]==task_id:
+            task_list.remove(task)
+            save_tasks_to_file(task_list)
+            return True
+    return False        
+
+def update_task(task_list,task_id,new_data):
+    for task in task_list:
+        if task["id"]==task_id:
+            task.update(new_data)
+            save_tasks_to_file(task_list)
+            return True
+    return False 
+    
+
 def display_tasks(tasks):
     """
 Display a list of tasks in a formatted output.    
@@ -42,9 +73,9 @@ Args:
         print(f" {task['id']}. {task['description']} [{task['status']}] ")
 
 if __name__=="__main__":
-    task1=create_task(1,"Watch film",STATUS_DONE)
-    task2=create_task(2,"Buy dress",STATUS_TO_DO)
-    task3=create_task(3,"Learn coding",STATUS_IN_PROGRESS)
-
-    task_list = [task1,task2,task3]
+    task_list = load_tasks_from_file()
+    next_id=get_next_task_id(task_list)
+    new_task=create_task(next_id,"Dancing", STATUS_TO_DO)
+    add_task(task_list, new_task)
     display_tasks(task_list)
+    
