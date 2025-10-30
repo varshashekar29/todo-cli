@@ -75,7 +75,7 @@ Args:
 if __name__=="__main__":
     task_list = load_tasks_from_file()
     next_id=get_next_task_id(task_list)
-    new_task=create_task(next_id,"Dancing", STATUS_TO_DO)
+    new_task=create_task(next_id,"Reading Books", STATUS_IN_PROGRESS)
     add_task(task_list, new_task)
     display_tasks(task_list)
     
